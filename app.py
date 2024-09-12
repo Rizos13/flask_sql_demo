@@ -2,7 +2,7 @@ import sqlite3
 import os
 from flask import Flask, render_template, request, flash, session, redirect, url_for, abort, g
 from FDataBase import FDataBase
-
+#
 DATABASE = '/tmp/flsite.db'
 DEBUG = True
 SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'

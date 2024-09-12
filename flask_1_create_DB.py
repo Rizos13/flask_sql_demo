@@ -1,3 +1,3 @@
-from flsite import create_db
+from app import create_db
 create_db()
 
