@@ -2,7 +2,7 @@ import sqlite3
 import os
 from flask import Flask, render_template, request, flash, session, redirect, url_for, abort, g
 from FDataBase import FDataBase
-#
+
 DATABASE = '/tmp/flsite.db'
 DEBUG = True
 SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'
@@ -50,7 +50,7 @@ def addPost():
     dbase = FDataBase(db)
 
     if request.method == "POST":
-        if len(request.form['name']) > 4 and len(request.form['post']) > 10:
+        if len(request.form['name']) > 4 and len(request.form['post']) >= 1:
             res = dbase.addPost(request.form['name'], request.form['post'])
             if not res:
                 flash('ERROR  of add post', category='error')
