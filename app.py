@@ -18,7 +18,6 @@ def connect_db():
     return conn
 
 def create_db():
-    """Вспомогательная функция для создания таблиц БД"""
     db = connect_db()
     with app.open_resource('sq_db.sql', mode='r') as f:
         db.cursor().executescript(f.read())
@@ -26,14 +25,12 @@ def create_db():
     db.close()
 
 def get_db():
-    '''Соединение с БД, если оно еще не установлено'''
     if not hasattr(g, 'link_db'):
         g.link_db = connect_db()
     return g.link_db
 
 @app.teardown_appcontext
 def close_db(error):
-    '''Закрываем соединение с БД, если оно было установлено'''
     if hasattr(g, 'link_db'):
         g.link_db.close()
 
