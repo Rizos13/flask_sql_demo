@@ -1,27 +1,24 @@
-import sqlite3
-import os
+import psycopg2
+#import os
 from flask import Flask, render_template, request, flash, session, redirect, url_for, abort, g
 from FDataBase import FDataBase
 
-DATABASE = '/tmp/flsite.db'
-DEBUG = True
-SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://alisasmirnova:mypassword@localhost:5432/postgres'
+app.config['DEBUG'] = True
+app.config['SECRET_KEY'] = 'fdgfh78@#5?>gfhf89dx,v06k'
 
-app.config.from_object(__name__)
-app.config.update(dict(DATABASE=os.path.join(app.root_path, 'flsite.db')))
 
 def connect_db():
-    conn = sqlite3.connect(app.config['DATABASE'])
-    conn.row_factory = sqlite3.Row
+    conn = psycopg2.connect(app.config['SQLALCHEMY_DATABASE_URI'])
+    conn.autocommit = True
     return conn
 
 def create_db():
     db = connect_db()
     with app.open_resource('sq_db.sql', mode='r') as f:
-        db.cursor().executescript(f.read())
-    db.commit()
+        db.cursor().execute(f.read())
     db.close()
 
 def get_db():
